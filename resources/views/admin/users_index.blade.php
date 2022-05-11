@@ -1,5 +1,10 @@
 <x-admin-layout>
 
+    <x-slot name="title">
+        Admin | Blog Users
+    </x-slot>
+
+
     @if (session('delete'))
     <div class="alert alert-warning text-center">
         {{session('delete')}}

@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -104,5 +105,42 @@ class AdminBlogController extends Controller
     {
         $user->delete();
         return back()->with('delete', $user->name." is Delete Successfully");
+    }
+
+    public function update(Blog $blog)
+    {
+        return view('admin.update', [
+            'categories' => Category::all(),
+            'blog' => $blog
+        ]);
+    }
+
+    public function post_update(Blog $blog)
+    {
+        $formData = request()->validate([
+            "title" => ['required'],
+            "slug" => ['required'],
+            "intro" => ['required'],
+            "body" => ['required'],
+            "category_id" => [Rule::exists('categories', 'id')]
+        ]);
+
+        $formData['user_id'] = Auth::user()->id;
+
+        if (request('thumbnail') !== null) {
+            $formData['thumbnail'] = request()->file('thumbnail')->store('Thumbnails');
+        } else {
+            if (!request('useOldThumbnail')) {
+                $formData['thumbnail'] = $blog->thumbnail;
+            } else {
+                $formData['thumbnail'] = null;
+            }
+        }
+
+        // dd($formData);
+
+        DB::table('blogs')->where('slug', $blog->slug)->update($formData);
+
+        return back()->with('updated', $formData['title'].' is updated Successfully');
     }
 }

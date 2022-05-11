@@ -1,7 +1,8 @@
-@props(['name','type'=>'text'])
+@props(['name','type'=>'text','value'=>null,'readonly'=>false])
 
 <div class="my-3">
     <x-form.label :name="$name" />
-    <input value="{{old($name)}}" type="{{$type}}" name="{{$name}}" id="{{$name}}" class="form-control my-1">
+    <input value="{{old($name) ? old($name) : $value}}" type="{{$type}}" name="{{$name}}" id="{{$name}}"
+        class="form-control my-1" {{$readonly ? "readonly" : "" }}>
     <x-error name="{{$name}}" />
 </div>

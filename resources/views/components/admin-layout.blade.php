@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot name="title">
-        Admin | Dashboard
+        {{$title}}
     </x-slot>
 
     <div class="container-fluid my-2">

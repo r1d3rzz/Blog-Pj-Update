@@ -1,5 +1,9 @@
 <x-admin-layout>
 
+    <x-slot name="title">
+        Admin | Dashboard
+    </x-slot>
+
     @if (session('delete'))
     <div class="alert alert-warning text-center">
         {{session('delete')}}
@@ -38,7 +42,11 @@
                         @endif
                     </form>
                 </td>
-                <td><button class="btn btn-sm btn-warning">Edit</button></td>
+                <td>
+                    <form action="/admin/{{$blog->slug}}/update" method="GET">
+                        <button type="submit" class="btn btn-sm btn-warning">Edit</button>
+                    </form>
+                </td>
 
                 <!--delete Btn-->
                 <form action="/admin/{{$blog->slug}}/delete" method="POST">@csrf @method('DELETE')

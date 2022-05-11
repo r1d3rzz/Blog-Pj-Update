@@ -1,4 +1,9 @@
 <x-admin-layout>
+
+    <x-slot name="title">
+        Admin | Categories
+    </x-slot>
+
     <div class="container-fluid">
         <div class="row">
             <!--Categories Lists-->
