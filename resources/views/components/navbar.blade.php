@@ -4,8 +4,10 @@
         <div class="d-flex">
             <a href="#home" class="nav-link">Home</a>
             <a href="#blogs" class="nav-link">Blogs</a>
-            <a href="#subscribe" class="nav-link">Subscribe</a>
             @auth
+            @can('admin')
+            <a href="/admin/blogs" class="nav-link">Dashboard</a>
+            @endcan
             <img src="{{auth()->user()->avatar}}" class="rounded-circle" width="40" alt="">
             <form action="">
                 <button class="nav-link btn btn-link">{{auth()->user()->name}}</button>

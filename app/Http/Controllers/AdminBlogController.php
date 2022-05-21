@@ -119,7 +119,7 @@ class AdminBlogController extends Controller
     {
         $formData = request()->validate([
             "title" => ['required'],
-            "slug" => ['required'],
+            "slug" => ['required',Rule::unique('blogs', 'slug')->ignore($blog->id)],
             "intro" => ['required'],
             "body" => ['required'],
             "category_id" => [Rule::exists('categories', 'id')]
@@ -141,6 +141,6 @@ class AdminBlogController extends Controller
 
         DB::table('blogs')->where('slug', $blog->slug)->update($formData);
 
-        return back()->with('updated', $formData['title'].' is updated Successfully');
+        return redirect('/admin/blogs')->with('updated', $formData['title'].' is updated Successfully');
     }
 }

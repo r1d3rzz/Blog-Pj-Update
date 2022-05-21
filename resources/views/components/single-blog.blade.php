@@ -1,7 +1,7 @@
 @props(['blog'])
 
 <div class="container">
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-md-6 mx-auto text-center">
             @if ($blog->thumbnail)
             <img src="{{asset('storage/'.$blog->thumbnail)}}" class="card-img-top" alt="..." />

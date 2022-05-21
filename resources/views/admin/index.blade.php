@@ -5,7 +5,7 @@
     </x-slot>
 
     @if (session('delete'))
-    <div class="alert alert-warning text-center">
+    <div class="alert alert-danger text-center">
         {{session('delete')}}
     </div>
     @endif
@@ -13,6 +13,12 @@
     @if (session('publish'))
     <div class="alert alert-warning text-center">
         {{session('publish')}}
+    </div>
+    @endif
+
+    @if (session('updated'))
+    <div class="alert alert-primary text-center">
+        {{session('updated')}}
     </div>
     @endif
 
@@ -31,7 +37,7 @@
             @forelse ($blogs as $blog)
             <tr>
                 <th scope="row">{{$blog->id}}</th>
-                <td>{{$blog->title}}</td>
+                <td><a href="/blogs/{{$blog->slug}}" target="_blank">{{$blog->title}}</a></td>
                 <td>{{$blog->intro}}</td>
                 <td>
                     <form action="/admin/{{$blog->slug}}/isPublish" method="POST">@csrf

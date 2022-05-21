@@ -6,24 +6,21 @@
     <div class="container">
         <div class="row">
             <div class="col-md mx-auto">
-                @if (session('updated'))
-                <div class="alert alert-primary text-center">
-                    {{session('updated')}}
-                </div>
-                @endif
-                <form action="/admin/{{$blog->slug}}/update" method="POST" enctype="multipart/form-data">@csrf
+                <form action="/admin/{{$blog->slug}}/update" method="POST" enctype="multipart/form-data">
+                    @method('PATCH')
+                    @csrf
 
                     <x-card-wrapper class="mt-0">
                         <x-form.input name="title" value="{{$blog->title}}" />
 
-                        <x-form.input name="slug" value="{{$blog->slug}}" readonly="true" />
+                        <x-form.input name="slug" value="{{$blog->slug}}" />
 
                         <x-form.input name="intro" value="{{$blog->intro}}" />
 
                         <div class="my-3">
                             <x-form.label name="body" />
                             <textarea name="body" id="body" cols="30" rows="10" class="form-control">
-                                {{$blog->body}}
+                                {!!$blog->body!!}
                             </textarea>
                             <x-error name="body" />
                         </div>
@@ -32,16 +29,17 @@
 
                         @if ($blog->thumbnail)
                         <div class="d-flex">
-                            <div><input type="checkbox" name="useOldThumbnail" class="me-2" id=""></div>
-                            <div><b>delete Thumbnail</b></div>
+                            <div><input type="checkbox" name="useOldThumbnail" class="me-2" id="deleteThumbnail"></div>
+                            <div><label for="deleteThumbnail"><b>delete Thumbnail</b></label></div>
                         </div>
+                        <div><img src="{{asset('/storage/'.$blog->thumbnail)}}" width="200" alt=""></div>
                         @endif
 
                         <div class="my-3">
                             <x-form.label name="category" />
                             <select class="form-control" name="category_id" id="category">
                                 @foreach ($categories as $category)
-                                <option {{$blog->category_id == $category->id ? 'selected' : ''}}
+                                <option {{$category->id == old('category_id',$blog->category->id) ? 'selected' : ''}}
                                     value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
